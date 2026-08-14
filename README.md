@@ -5,6 +5,33 @@ The project presents **TOMORO COFFEE**, a coffee brand focused on quality coffee
 
 ---
 
+## Introduction
+
+A company profile website is a website that introduces a business to its customers and gives them important information about the company. It usually contains the company's background, products or services, contact details, and other information that helps visitors understand what the business offers.
+
+Businesses need a company profile website because it gives them an online presence where customers can easily learn more about the company. It can also make the business look more professional and make important information easier to access.
+
+For this project, I created a company profile website for **TOMORO COFFEE** using Laravel. The main purpose of the project is to apply the basic concepts of Laravel MVC, routing, controllers, Blade templates, reusable components, and responsive web design in an actual website.
+
+---
+
+## Objectives
+
+The objectives of this project are to:
+
+- Create a responsive multi-page company profile website using Laravel.
+- Understand how the Model-View-Controller architecture works.
+- Create and manage routes using Laravel Routing.
+- Use a controller to handle requests for different pages.
+- Build website pages using the Blade Templating Engine.
+- Create reusable layouts, navigation, and footer components.
+- Organize the Laravel project using a proper folder structure.
+- Apply responsive CSS styling to create a clean and usable interface.
+- Use Git and GitHub to track the development of the project.
+- Document the project properly using Markdown.
+
+---
+
 ## Project Overview
 
 **TOMORO COFFEE** is designed as a modern and responsive company profile website with a clean coffee-shop-inspired design, orange accents, simple typography, and organized layouts.
@@ -110,6 +137,10 @@ app/
 ├── Models/
 └── Providers/
 
+bootstrap/
+
+config/
+
 resources/
 ├── css/
 ├── js/
@@ -126,7 +157,22 @@ public/
 └── images/
 
 screenshots/
+
+documentation/
 ```
+
+### Folder Descriptions
+
+| Folder | Purpose |
+|---|---|
+| `app/` | Contains the main application code, including controllers and models. |
+| `routes/` | Contains the route definitions of the application. The website routes are stored in `web.php`. |
+| `resources/` | Contains Blade views, CSS, JavaScript, and other source files used by the website. |
+| `public/` | Contains publicly accessible files such as images and Laravel's main entry point. |
+| `bootstrap/` | Contains files used by Laravel when starting and loading the application. |
+| `config/` | Contains the configuration files used by the Laravel application. |
+| `screenshots/` | Contains screenshots used for project documentation. |
+| `documentation/` | Contains additional project documentation such as the architecture diagram. |
 
 ### Blade Views
 
@@ -152,7 +198,18 @@ resources/views/
 
 ## MVC Architecture
 
-The project follows Laravel's **Model-View-Controller (MVC)** architecture. This separates the different parts of the application and makes the project easier to organize and understand.
+The project follows Laravel's **Model-View-Controller (MVC)** architecture. MVC separates the different parts of an application based on their responsibilities.
+
+Laravel uses MVC because it helps keep the application organized. Instead of placing routes, page logic, and interface code in one file, each part has its own responsibility.
+
+### Advantages of MVC
+
+- Better organization of code
+- Easier maintenance
+- Separation of responsibilities
+- Reusable code and components
+- Easier debugging
+- Better structure for larger applications
 
 ### Model
 
@@ -312,6 +369,12 @@ The website follows this general process:
 6. CSS, JavaScript, and image assets are loaded by the website.
 7. Laravel returns the rendered page to the browser.
 
+The architecture diagram can also be saved as an image inside:
+
+```text
+documentation/architecture-diagram.png
+```
+
 ---
 
 ## Reusable Blade Components
@@ -378,7 +441,82 @@ Example:
 
 ---
 
-## Routing
+## Blade Templating Engine
+
+Laravel Blade is the templating engine used to create the website's pages. Blade makes it easier to reuse layouts and components instead of repeating the same HTML on every page.
+
+### Blade Layouts
+
+The main layout of the website is:
+
+```text
+resources/views/layouts/app.blade.php
+```
+
+This file contains the common structure used by the different pages.
+
+### Blade Components
+
+Reusable website elements are stored inside:
+
+```text
+resources/views/components/
+```
+
+The project currently uses:
+
+```text
+navbar.blade.php
+footer.blade.php
+```
+
+This avoids copying the same navigation and footer HTML into every page.
+
+### @extends
+
+The `@extends` directive tells a Blade page which layout it should use.
+
+```blade
+@extends('layouts.app')
+```
+
+### @section
+
+The `@section` directive defines content that will be inserted into a specific part of the layout.
+
+```blade
+@section('content')
+
+    <h1>About TOMORO COFFEE</h1>
+
+@endsection
+```
+
+### @yield
+
+The `@yield` directive creates an area in the main layout where content from an individual page can be displayed.
+
+```blade
+@yield('content')
+```
+
+### @include
+
+The `@include` directive can be used to insert another Blade file into the current template.
+
+Example:
+
+```blade
+@include('components.navbar')
+```
+
+Using Blade layouts and reusable components helps keep the website organized and reduces repeated HTML code.
+
+---
+
+## Laravel Routing
+
+Routing determines how Laravel responds when a visitor opens a specific URL.
 
 The website routes are defined in:
 
@@ -388,7 +526,7 @@ routes/web.php
 
 The routes connect the website URLs to `CompanyController` and their corresponding Blade views.
 
-Main routes include:
+### Main Routes
 
 ```text
 /
@@ -397,7 +535,13 @@ Main routes include:
 /contact
 ```
 
-The project uses named routes for easier navigation between pages.
+### GET Requests
+
+This project uses `Route::get()` because the four main routes are used to display website pages.
+
+A GET request is commonly used when retrieving or displaying information from a web application.
+
+### Route Definitions
 
 ```php
 Route::get('/', [CompanyController::class, 'home'])
@@ -413,6 +557,20 @@ Route::get('/contact', [CompanyController::class, 'contact'])
     ->name('contact');
 ```
 
+### Named Routes
+
+The project uses named routes such as `home`, `about`, `services`, and `contact`.
+
+Named routes make navigation easier because Blade templates can use Laravel's `route()` helper instead of manually writing the URL.
+
+Example:
+
+```blade
+<a href="{{ route('services') }}">Services</a>
+```
+
+For example, when a visitor opens `/services`, Laravel matches the URL with the Services route and calls the `services()` method from `CompanyController`.
+
 ---
 
 ## Controller
@@ -423,7 +581,18 @@ The company profile controller is located in:
 app/Http/Controllers/CompanyController.php
 ```
 
-The controller handles the main company profile pages and returns the appropriate Blade views.
+A controller handles requests received by the application and decides what response should be returned.
+
+Using a controller keeps the route definitions simple and separates request handling from the website interface.
+
+### Controller Methods
+
+The `CompanyController` contains four main methods:
+
+- `home()` — returns the Home page
+- `about()` — returns the About page
+- `services()` — returns the Services page
+- `contact()` — returns the Contact page
 
 ```php
 public function home()
@@ -447,6 +616,8 @@ public function contact()
 }
 ```
 
+Instead of placing all the page handling directly inside `web.php`, the routes call these controller methods.
+
 ---
 
 ## Frontend Assets
@@ -458,6 +629,12 @@ resources/css/app.css
 ```
 
 The website uses custom CSS for its layout, colors, typography, responsive design, cards, buttons, forms, and other visual elements.
+
+The main JavaScript file is located at:
+
+```text
+resources/js/app.js
+```
 
 The project uses Vite for frontend asset development and compilation.
 
@@ -586,11 +763,23 @@ Screenshots documenting the Laravel development process and final website are sh
 
 ---
 
-### GitHub Repository
+### Additional Required Screenshots
 
-<!-- Add github.png inside the screenshots folder, then replace this comment with:
+#### Navigation Bar
+
+![Navigation Bar](screenshots/navbar.png)
+
+#### Footer
+
+![Footer](screenshots/footer.png)
+
+#### Browser Output
+
+![Browser Output](screenshots/browser-output.png)
+
+#### GitHub Repository
+
 ![GitHub Repository](screenshots/github.png)
--->
 
 ---
 
@@ -705,6 +894,68 @@ The commit history shows how the project was built step by step instead of being
 
 ---
 
+## Problems Encountered
+
+While developing the project, I encountered a few problems that helped me understand Laravel better.
+
+### 1. Organizing Routes and Pages
+
+At first, I had to understand how Laravel routes connect URLs to controller methods and Blade views. It was different from creating a normal HTML website where pages can simply be opened directly.
+
+### 2. Displaying Images and Project Screenshots
+
+Another challenge was understanding the correct paths for images. Website assets are stored in `public/images/`, while screenshots used for project documentation are stored in the `screenshots/` folder.
+
+I also had to make sure that the filenames written in the README matched the actual image filenames.
+
+### 3. Using Reusable Blade Files
+
+I also had to understand how layouts and reusable Blade components work. Instead of writing the navbar and footer again on every page, Laravel allows them to be placed in separate files and reused throughout the website.
+
+---
+
+## Solutions
+
+### 1. Fixing Routes and Views
+
+I organized the four page routes inside `routes/web.php` and connected them to their corresponding methods inside `CompanyController`.
+
+Each controller method then returns the correct Blade view.
+
+### 2. Fixing Image and Screenshot Paths
+
+I organized website images inside `public/images/` and used Laravel's `asset()` helper when displaying them in Blade.
+
+For README screenshots, I placed the files inside the `screenshots/` folder and used their exact filenames in the Markdown image paths.
+
+### 3. Using Blade Layouts and Components
+
+I created a shared `app.blade.php` layout and separate navbar and footer components.
+
+The individual pages use the shared layout so common website elements do not need to be duplicated.
+
+These problems helped me understand how Laravel organizes a project and how its different parts work together.
+
+---
+
+## Reflection
+
+Before working on this project, I was more familiar with creating web pages where most of the structure could be placed directly in HTML files. Developing the TOMORO COFFEE company profile website helped me understand why Laravel separates an application into different parts using the Model-View-Controller architecture.
+
+One of the main things I learned is how routes, controllers, and views work together. The route receives the request based on the URL entered by the user. It then connects that request to a method inside the controller. The controller decides which Blade view should be returned, and that view becomes the page displayed in the browser. Seeing this process in an actual project made MVC easier for me to understand compared with only reading about it.
+
+I also learned why separation of concerns is important. If all routes, page logic, navigation, content, and styling were placed in the same file, the project would quickly become difficult to manage. Laravel gives each part of the application a clearer responsibility. The routes handle URLs, the controller handles requests, and the Blade views handle the interface. I also used a shared layout and reusable navbar and footer components, which helped me avoid repeating the same code on every page.
+
+Another thing I learned was the importance of organizing project files correctly. Laravel has many folders, and at first the structure can look complicated. While working on the project, I became more familiar with folders such as `app`, `resources`, `routes`, and `public`. I also learned how Vite connects the CSS and JavaScript files to the Laravel application.
+
+Git and GitHub were also useful during development. Instead of making the entire website and uploading everything at once, I created commits for different parts of the project. This made it easier to see the progress of the website and understand how version control can be used while developing an application.
+
+I can see how this architecture becomes more useful in larger systems. A company website is still a relatively small project, but larger enterprise applications can contain many pages, users, database operations, and features. Separating these responsibilities would make those systems easier for a development team to maintain and improve.
+
+Overall, this project gave me a better understanding of how a Laravel application works from the browser request to the final Blade page. I still have more Laravel features to learn, especially database-related features, but this project gave me a clearer foundation for building more complex applications.
+
+---
+
 ## Project Purpose
 
 This project was created as part of **ITST 302** to demonstrate the development of a Laravel-based company profile website.
@@ -723,6 +974,18 @@ It demonstrates the use of:
 - Vite and NPM
 - Git version control
 - GitHub
+
+---
+
+## References
+
+Laravel. (n.d.). *Laravel documentation*. https://laravel.com/docs
+
+MDN Web Docs. (n.d.). *HTML: HyperText Markup Language*. Mozilla. https://developer.mozilla.org/en-US/docs/Web/HTML
+
+MDN Web Docs. (n.d.). *CSS: Cascading Style Sheets*. Mozilla. https://developer.mozilla.org/en-US/docs/Web/CSS
+
+PHP Documentation Group. (n.d.). *PHP manual*. https://www.php.net/manual/en/
 
 ---
 
