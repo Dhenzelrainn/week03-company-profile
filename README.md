@@ -100,7 +100,7 @@ The website also uses responsive layouts, custom cards, buttons, hover effects, 
 
 ## Laravel Architecture
 
-The project follows Laravel's standard structure and uses the **Model-View-Controller (MVC)** architecture to organize the application.
+The project follows Laravel's standard structure and uses the **Model-View-Controller (MVC)** architecture to keep the application organized.
 
 ### Important Directories
 
@@ -152,13 +152,13 @@ resources/views/
 
 ## MVC Architecture
 
-The project follows Laravel's **Model-View-Controller (MVC)** architecture. MVC helps separate different parts of the application so the project is easier to organize, understand, and maintain.
+The project follows Laravel's **Model-View-Controller (MVC)** architecture. This separates the different parts of the application and makes the project easier to organize and understand.
 
 ### Model
 
 The **Model** is normally responsible for handling application data and database-related operations.
 
-For this company profile website, there is currently no major database functionality because the website mainly displays static company information.
+For this company profile website, there is currently no major database functionality because the website mainly displays company information.
 
 Laravel's model directory is located at:
 
@@ -170,7 +170,7 @@ app/Models/
 
 The **View** is responsible for the content displayed to the user.
 
-The project uses Laravel's Blade templating engine, and the main website pages are stored inside:
+The project uses Laravel's Blade templating engine. The main website pages are stored inside:
 
 ```text
 resources/views/pages/
@@ -185,7 +185,7 @@ services.blade.php
 contact.blade.php
 ```
 
-Reusable components and the main layout are also stored inside `resources/views/`.
+The project also uses a shared layout and reusable components for common elements such as the navbar and footer.
 
 ### Controller
 
@@ -244,7 +244,7 @@ HTML Response
 User / Browser
 ```
 
-For example, when the user visits `/about`, Laravel finds the About route, calls the `about()` method from `CompanyController`, and returns the `pages.about` Blade view.
+For example, when a visitor opens `/about`, Laravel checks the route, calls the `about()` method from `CompanyController`, and returns the `pages.about` Blade view.
 
 ---
 
@@ -274,6 +274,7 @@ flowchart TD
 
     L[resources/css/app.css] --> H
     M[resources/js/app.js] --> H
+
     N[public/images] --> D
     N --> E
     N --> F
@@ -281,6 +282,22 @@ flowchart TD
 
     H --> O[Rendered HTML]
     O --> A
+
+    style A fill:#ffffff,color:#000000,stroke:#333333
+    style B fill:#ffffff,color:#000000,stroke:#333333
+    style C fill:#ffffff,color:#000000,stroke:#333333
+    style D fill:#ffffff,color:#000000,stroke:#333333
+    style E fill:#ffffff,color:#000000,stroke:#333333
+    style F fill:#ffffff,color:#000000,stroke:#333333
+    style G fill:#ffffff,color:#000000,stroke:#333333
+    style H fill:#ffffff,color:#000000,stroke:#333333
+    style I fill:#ffffff,color:#000000,stroke:#333333
+    style J fill:#ffffff,color:#000000,stroke:#333333
+    style K fill:#ffffff,color:#000000,stroke:#333333
+    style L fill:#ffffff,color:#000000,stroke:#333333
+    style M fill:#ffffff,color:#000000,stroke:#333333
+    style N fill:#ffffff,color:#000000,stroke:#333333
+    style O fill:#ffffff,color:#000000,stroke:#333333
 ```
 
 ### Architecture Flow
@@ -290,12 +307,10 @@ The website follows this general process:
 1. The visitor requests a page using the browser.
 2. Laravel checks `routes/web.php` for the matching route.
 3. The route calls the appropriate method in `CompanyController`.
-4. The controller returns the correct Blade page.
-5. The page uses the shared Blade layout, navbar, and footer.
+4. The controller returns the correct Blade view.
+5. The Blade page uses the shared layout, navbar, and footer.
 6. CSS, JavaScript, and image assets are loaded by the website.
-7. Laravel returns the rendered HTML page to the browser.
-
-This structure keeps the routes, page logic, user interface, and frontend assets organized in separate parts of the project.
+7. Laravel returns the rendered page to the browser.
 
 ---
 
